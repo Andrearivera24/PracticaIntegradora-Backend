@@ -6,10 +6,10 @@ class MessageService {
     }
    // recupero todos los mensajes 
     async getMessages (){
-        return await this.model.find();
+        return await this.model.find().lean();
     }
     async addMessage(msj){
-        await this.model.create(msj)
+        await this.model.create(msj);
     }
 
 }

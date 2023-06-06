@@ -22,7 +22,7 @@ export const productSchema = new mongoose.Schema({
   code: {
     type: Number,
     required: true,
-    unique: true,
+    unique: false,
   },
   stock:{
     type: Number,

@@ -35,7 +35,7 @@ mongoose.connect('mongodb+srv://AndreaRivera24:acrs241097@cluster0.ggiy5uv.mongo
 //Inicializo el servidor
 
 const webServer = app.listen(8080, ()=>{
-    console.log('Listeting on port 8080');
+    console.log('Listening on port 8080');
 })
 
 //inicio el socket.io

@@ -2,7 +2,7 @@ const socket = io(); // inicio la conexión.
 
 //----Variables
 let user;
-const inputMSJ = document.getElementById('msj');
+const inputMSJ = document.getElementById('message');
 
 // Uso el SweetAlert de bienvenida que guarda el correo del usuario.
 
@@ -23,9 +23,9 @@ Swal.fire({
 
 inputMSJ.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
-    let msj = inputMSJ.value;
-    if (msj.trim().length > 0) {
-      socket.emit('message', { user, msj });
+    let message = inputMSJ.value;
+    if ( message.trim().length > 0) {
+      socket.emit('message', { user,  message });
       inputMSJ.value = '';
     }
   }
@@ -37,13 +37,11 @@ inputMSJ.addEventListener('keyup', (e) => {
    const html = data.map((elem) => {
         return `<div>
                 <strong>${elem.user}</strong>
-                <p>${elem.msj}</p>
+                <p>${elem.message}</p>
               </div>`
           }).join(' '); //uno todos los mensajes en un mismo string
-  console.log(elem.msj);
     document.getElementById('messages').innerHTML = html;
   }
-
 
 // Escucho y renderizo con la función los mensajes actualizados que me envíe el servidor
 socket.on('messages', (data) => {
