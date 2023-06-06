@@ -9,6 +9,7 @@ class CartService{
 // C: Create
 async addCart(cart){
     cart.products =[];
+    console.log(cart);
     return await this.model.create(cart);
 }
 
