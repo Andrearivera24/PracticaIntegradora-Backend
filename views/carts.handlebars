@@ -1,0 +1,23 @@
+
+<div class='container' id="carts">
+	<div class='row'>
+		{{#if cart}}
+			{{#each cart}}
+			<div class="card" style="width: 18rem;">
+				<img src="" class="card-img-top" alt="">
+				<div class="card-body">
+					<h4 class="card-title">Title:</h4>
+					<p class="card-text"></p>
+					<p class="card-text">Level:</p>
+					<p class="card-text">Stock:</p> 
+					<h6 class="card-text">$USD</h6>
+				</div>
+			</div>
+			{{/each}}
+			{{else}}
+					<div class="card-body">
+					<h4 class="card-title">No se encontraron los productos del carrito</h4>
+				</div>
+			{{/if}}
+	</div>	
+</div> 

@@ -2,8 +2,6 @@ import mongoose from "mongoose";
 import { productModel } from "./product.model.js";
 
 const cartSchema = new mongoose.Schema({
-  name: String,
-  year: Number,
   products: [
     {
       // los productos son un de tipo lista que contendrá varios objetos de tipo id, de la coleción "products"

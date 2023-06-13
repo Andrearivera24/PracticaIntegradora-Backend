@@ -4,8 +4,7 @@ const cartRouter = Router();
 
 // C: Create
 cartRouter.post('/', async (req, res)=>{
-const cart = req.body;
-const cartAdded = await cartService.addCart(cart);
+const cartAdded = await cartService.addCart();
 try {
     res.status(201).send(cartAdded);
     
@@ -16,12 +15,11 @@ try {
 
 
 // agregar producto (pid) en cart (cid)
-cartRouter.post('/:cid', async (req, res)=>{
+cartRouter.post('/:cid/product/:pid', async (req, res)=>{
 const cid = req.params.cid;
-const pid = req.body.pid;
-const cartAdded = await cartService.addProdInCart(pid, cid);
-
+const pid = req.params.pid;
     try {
+        const cartAdded = await cartService.addProdInCart(pid, cid);
         res.status(201).send(cartAdded);
         
     } catch (err) {
@@ -40,6 +38,18 @@ const carts = await cartService.getCarts()
     }
     });
 
+//R: read, obtiene el contenido de los productos de un carrito en particular. 
+cartRouter.get('/:cid',async (req, res)=>{
+const cid = req.params.cid;
+const cartContent = await cartService.getCartContents(cid);
+try {
+    res.send(cartContent);
+} catch (err) {
+    res.status(404).send({ERROR: err});
+}
+
+})
+
 
 // D: Delete
 cartRouter.delete('/:cid', async (req, res)=>{
@@ -52,6 +62,59 @@ cartRouter.delete('/:cid', async (req, res)=>{
             res.status(404).send({ERROR: err});
         }
         });
+//----EndPoints de segunda pre-entrega 
+
+//DELETE api/carts/:cid/products/:pid deberá eliminar del carrito el producto seleccionado.
+cartRouter.delete('/:cid/products/:pid', async (req, res)=>{
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    const cartDeleted = await cartService.delProdInCart(pid, cid); 
+    try {
+        res.status(204).send(cartDeleted);
+    } catch (err) {
+        res.status(404).send({ERROR: err});
+    }
+
+})
+//PUT api/carts/:cid deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba.
+cartRouter.put('/:cid', async (req, res)=>{
+const cid = req.params.cid; 
+const product = req.body.product; // todo el producto por el body
+const updatedCart = await cartService.updateCart(cid, product);
+try {
+    res.status(201).send(updatedCart);
+} catch (err) {
+    res.status(500).send({ERROR: err});
+}
+});
+
+//PUT api/carts/:cid/products/:pid deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
+cartRouter.put('/:cid/products/:pid', async(req, res)=>{
+const cid = req.params.cid;
+const pid = req.params.pid;
+const quantity = parseInt(req.body.quantity);
+const updatedCart = await cartService.updateProdInCart(pid, cid, quantity);
+try {
+    res.status(201).send(updatedCart);
+    
+} catch (err) {
+    res.status(500).send({ERROR: err});
+}
+});
+
+//DELETE api/carts/:cid deberá eliminar todos los productos del carrito 
+cartRouter.delete('/:cid', async (req, res)=>{
+    const cid = req.params.cid
+    await cartService.delAllProdsInCart(cid);
+try {
+    res.status(204).send();
+
+} catch (err) {
+    res.status(504).send({ERROR: err});
+}
+
+})
+
 
 
 export default cartRouter;

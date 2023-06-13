@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 export const productSchema = new mongoose.Schema({
   title: {
@@ -22,6 +23,7 @@ export const productSchema = new mongoose.Schema({
   code: {
     type: Number,
     required: true,
+    unique: true,
   },
   stock:{
     type: Number,
@@ -38,6 +40,6 @@ export const productSchema = new mongoose.Schema({
     default: true
   }
 });
-
+productSchema.plugin(mongoosePaginate);
 export const productModel = mongoose.model("products", productSchema); // exporto en la colección "products" a mongoAltas usando el esquema "productSchema"
 
